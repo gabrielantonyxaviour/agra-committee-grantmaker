@@ -44,6 +44,7 @@ Date: 2026-05-21
 - Visual direction borrows from Gabriel's SaaS/product template catalog and MotionSites `nexora-automation` / `sentinel-ai` patterns.
 - App is an operating console, not a plain CRUD dashboard.
 - Public production URL: `https://agra-committee-grantmaker.vercel.app`.
+- Latest Vercel deployment: `https://agra-committee-grantmaker-9h4iezdl1-rax-tech.vercel.app`.
 - Local production preview: `http://localhost:3003`.
 
 ## Build Status
@@ -69,6 +70,7 @@ Implemented surfaces:
 - `GET /api/applications` returned 4 apps after browser-driven live submit.
 - `POST /api/replay` returned canonical accepted decision with fixture proof status.
 - Public app smoke test returned HTTP 200.
+- Final public app browser smoke loaded title `AGRA Committee-Governed Grantmaker`.
 
 ## Visual QA Status
 
@@ -81,6 +83,7 @@ Implemented surfaces:
   - `outputs/visual-qa/prod-home-375-full.png`
   - `outputs/visual-qa/prod-after-submit-375.png`
   - `outputs/visual-qa/public-home-1440.png`
+  - `outputs/visual-qa/public-final-1440.png`
 - No browser console or page errors were reported by `agent-browser`.
 - Official `/polish` is not marked passed because the required M2 worker was unreachable.
 

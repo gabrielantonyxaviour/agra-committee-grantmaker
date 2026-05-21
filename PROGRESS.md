@@ -53,3 +53,9 @@
 - Split the client console into smaller components to satisfy the 300-line file rule.
 - Reran `npm run typecheck && npm test && npm run lint && npm run build && npm run arc:check && npm run replay && forge test`; all checks passed.
 - Pushed `main` to `https://github.com/gabrielantonyxaviour/agra-committee-grantmaker` at commit `15a3ac6`.
+
+## 2026-05-21T07:56:00+05:30
+
+- Pushed final status docs to GitHub at commit `4b197e8`.
+- Redeployed production with Vercel; canonical URL `https://agra-committee-grantmaker.vercel.app` returned HTTP 200.
+- Browser session `agra-public-final` loaded the public app, confirmed title `AGRA Committee-Governed Grantmaker`, and captured `outputs/visual-qa/public-final-1440.png`.

@@ -44,5 +44,6 @@ Deployment proof:
 
 - Vercel project linked as `rax-tech/agra-committee-grantmaker`.
 - Production URL: `https://agra-committee-grantmaker.vercel.app`.
+- Latest deployment URL: `https://agra-committee-grantmaker-9h4iezdl1-rax-tech.vercel.app`.
 - `curl -I -L https://agra-committee-grantmaker.vercel.app` returned HTTP 200.
-- Browser session `agra-public-verify` loaded the public app and captured `outputs/visual-qa/public-home-1440.png`.
+- Browser sessions `agra-public-verify` and `agra-public-final` loaded the public app and captured screenshots under `outputs/visual-qa/`.
