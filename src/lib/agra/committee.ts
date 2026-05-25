@@ -1,8 +1,6 @@
 import {
-  ARC_EXPLORER,
   ARC_TESTNET_CHAIN_ID,
-  DEMO_REGISTRY_ADDRESS,
-  DEMO_TX_HASH,
+  DECISION_REGISTRY_ADDRESS,
   EURC_ADDRESS,
   TREASURY_CAP_USDC,
   USDC_ADDRESS,
@@ -155,37 +153,16 @@ function chooseCurrency(input: GrantApplicationInput): "USDC" | "EURC" {
   return asksEurc && process.env.AGRA_EURC_ENABLED === "1" ? "EURC" : "USDC";
 }
 
-function makeProof(
-  decision: GrantVerdict,
-  currency: "USDC" | "EURC",
-): ArcProof {
-  const tokenAddress = currency === "EURC" ? EURC_ADDRESS : USDC_ADDRESS;
-  const registryAddress = process.env.DECISION_REGISTRY_ADDRESS;
-  if (registryAddress) {
-    return {
-      status: "ready",
-      chainId: ARC_TESTNET_CHAIN_ID,
-      registryAddress,
-      tokenAddress,
-      tokenSymbol: currency,
-      note: "Registry is configured; run npm run replay:broadcast after funding to emit the real event.",
-    };
-  }
+// Provisional proof attached at evaluation time. The API route records the
+// decision on-chain and overwrites this with the real tx-backed ArcProof.
+function provisionalProof(currency: "USDC" | "EURC"): ArcProof {
   return {
-    status: decision === "accepted" ? "fixture" : "blocked",
+    status: "pending",
     chainId: ARC_TESTNET_CHAIN_ID,
-    registryAddress: DEMO_REGISTRY_ADDRESS,
-    transactionHash: decision === "accepted" ? DEMO_TX_HASH : undefined,
-    explorerUrl:
-      decision === "accepted"
-        ? `${ARC_EXPLORER}/tx/${DEMO_TX_HASH}`
-        : undefined,
-    tokenAddress,
+    registryAddress: DECISION_REGISTRY_ADDRESS || undefined,
+    tokenAddress: currency === "EURC" ? EURC_ADDRESS : USDC_ADDRESS,
     tokenSymbol: currency,
-    note:
-      decision === "accepted"
-        ? "Fixture tx hash shown as demo data; no Arc transaction exists until Circle faucet funding is available."
-        : "No transaction is produced for rejected or blocked decisions.",
+    note: "Awaiting on-chain record on Arc Testnet.",
   };
 }
 
@@ -249,6 +226,6 @@ export function evaluateApplication(
       Math.round((Date.now() - started) / 1000) + 11,
     ),
     votes,
-    arcProof: makeProof(verdict, payoutCurrency),
+    arcProof: provisionalProof(payoutCurrency),
   };
 }

@@ -72,13 +72,30 @@ throughout.
    the live write enables once a funded wallet is connected.
 7. `npm run replay` reproduces the canonical accepted decision deterministically.
 
+## Data integrity — real data only
+
+There are no fixtures or seed records anywhere. Every value on screen comes from:
+
+- **On-chain (source of truth):** `DecisionRegistry`
+  (`0xa89D6396f6916089Cd5618487A5D348E7E55D427`, Arc Testnet). Each submission
+  records its committee decision on-chain **autonomously** (server treasury
+  signer, no human click). The ledger is read back from `DecisionRecorded`
+  events via viem.
+- **Cloudflare R2 supplement:** off-chain descriptive fields (applicant text,
+  agent reasons/scores) stored as JSON keyed by the on-chain applicationId,
+  genuinely supplementing — never replacing — the on-chain record.
+
+If R2 lacks an entry, the ledger row is reconstructed purely from the on-chain
+event, so the chain always wins.
+
 ## Stack
 
 - Next.js 16 App Router, React 19, TypeScript
 - **Reown AppKit + Wagmi + Viem** for wallet-native sign-in and the
   read/simulate/write flow (see `AUTH_AND_ARC_PLAN.md`)
+- **Cloudflare R2** (`@aws-sdk/client-s3`) for the off-chain supplement
 - `zod` for input validation
-- Foundry contract for `DecisionRegistry`
+- Foundry contract for `DecisionRegistry` (deployed to Arc Testnet)
 - Agent/browser verified visual evidence under `outputs/visual-qa/` and
   `/tmp/verify/agra/`
 

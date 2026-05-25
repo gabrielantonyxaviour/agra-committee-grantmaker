@@ -8,10 +8,14 @@ export const USDC_ADDRESS =
 export const EURC_ADDRESS =
   "0x89B50855Aa3bE2F677cD6303Cec089B5F319D72a" as const;
 
-export const DEMO_REGISTRY_ADDRESS =
-  "0x0000000000000000000000000000000000000a6a" as const;
+// Live DecisionRegistry deployed on Arc Testnet. Source of truth for every
+// recorded committee decision; the ledger is read back from its events.
+export const DECISION_REGISTRY_ADDRESS = (process.env
+  .NEXT_PUBLIC_DECISION_REGISTRY_ADDRESS ??
+  process.env.DECISION_REGISTRY_ADDRESS ??
+  "") as string;
 
-export const DEMO_TX_HASH =
-  "0x7d2b7d1a8c89c9f0a1b44a68167d3d4fb700b45d9842f4f2be7d9f75b8cb0a6a" as const;
+// Block the registry was deployed at — bounds event log queries.
+export const REGISTRY_DEPLOY_BLOCK = 43985651n;
 
 export const TREASURY_CAP_USDC = 25;

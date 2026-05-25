@@ -94,9 +94,31 @@ read-loading, simulation loading/success/revert, write pending, confirmed
   settlement path; remaining balance ~18.99 USDC is left for the interactive
   browser demo. Pre-funding, the same simulate reverted (insufficient balance)
   and the UI disabled the write — both states are real, no fake hashes.
-- **Registry path (separate):** `DecisionRegistry.recordDecision` server-side
-  broadcast (`scripts/replay-demo.ts`) remains blocked on
-  `DECISION_REGISTRY_ADDRESS` (contract not yet deployed). Labeled fixture.
+- **Registry deployed + recording live:** `DecisionRegistry` is deployed at
+  `0xa89D6396f6916089Cd5618487A5D348E7E55D427`
+  ([deploy tx](https://testnet.arcscan.app/tx/0x60ff001ff4e77f942055372dd64b8624841a58d7855ba7e3dc8d6a01a34565b3)).
+  Every grant submission now records its committee decision on-chain
+  **autonomously** via the server treasury key (no human click), e.g.
+  `0x5b41…9c0c`. The ledger is read back from `DecisionRecorded` events.
+
+## Real-data architecture (no fixtures)
+
+All displayed data is sourced from chain or a Cloudflare R2 supplement — there
+are no seed/fixture records anywhere.
+
+- **On-chain (source of truth):** `DecisionRegistry` events carry verdict,
+  evidenceHash, traceHash, applicant, amount, token. Read via viem
+  `getContractEvents` (`src/lib/agra/arc.ts: readDecisionEvents`).
+- **R2 supplement:** `src/lib/agra/r2.ts` stores the off-chain descriptive
+  fields (applicant text, agent reasons/scores) as JSON keyed by the on-chain
+  applicationId (bytes32). Accessed from Vercel via the S3 API
+  (`@aws-sdk/client-s3`), bucket `agra-grants`.
+- **Flow** (`src/lib/agra/store.ts`): submit → committee evaluates → server
+  records on-chain → R2 stores detail. Ledger = on-chain events joined to R2;
+  if R2 is missing an entry, it is reconstructed purely from the event.
+- Required Vercel env: `ARC_PRIVATE_KEY` (testnet treasury signer),
+  `DECISION_REGISTRY_ADDRESS`, `NEXT_PUBLIC_DECISION_REGISTRY_ADDRESS`,
+  `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `AGRA_R2_BUCKET`.
 
 ## To go fully live
 

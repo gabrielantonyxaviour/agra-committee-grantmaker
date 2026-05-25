@@ -1,6 +1,6 @@
 export type GrantVerdict = "accepted" | "rejected" | "pending";
 
-export type ProofStatus = "fixture" | "ready" | "broadcast" | "blocked";
+export type ProofStatus = "recorded" | "pending" | "failed";
 
 export type CommitteeRole = "public_goods" | "safety" | "treasury";
 
@@ -38,6 +38,7 @@ export interface ArcProof {
   registryAddress?: string;
   transactionHash?: string;
   explorerUrl?: string;
+  blockNumber?: number;
   tokenAddress: string;
   tokenSymbol: "USDC" | "EURC";
   note: string;

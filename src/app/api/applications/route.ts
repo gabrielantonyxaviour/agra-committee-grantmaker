@@ -3,7 +3,7 @@ import { applicationSchema } from "@/lib/agra/schema";
 import { addApplication, listApplications } from "@/lib/agra/store";
 
 export async function GET() {
-  return NextResponse.json({ applications: listApplications() });
+  return NextResponse.json({ applications: await listApplications() });
 }
 
 export async function POST(request: Request) {
@@ -27,6 +27,6 @@ export async function POST(request: Request) {
     );
   }
 
-  const application = addApplication(parsed.data);
+  const application = await addApplication(parsed.data);
   return NextResponse.json({ application }, { status: 201 });
 }

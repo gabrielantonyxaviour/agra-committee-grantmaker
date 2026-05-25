@@ -176,15 +176,14 @@ function ArcProofCard({ selected }: { selected: GrantApplication }) {
           </dd>
         </div>
       </dl>
-      {selected.decision.arcProof.status === "fixture" &&
-      selected.decision.arcProof.transactionHash ? (
-        <p className="proof-fixture-hash">
-          Fixture tx hash, not broadcast:{" "}
-          {shortHash(selected.decision.arcProof.transactionHash)}
-        </p>
-      ) : selected.decision.arcProof.explorerUrl ? (
-        <a className="proof-link" href={selected.decision.arcProof.explorerUrl}>
-          Arcscan proof <ExternalLink size={15} />
+      {selected.decision.arcProof.explorerUrl ? (
+        <a
+          className="proof-link"
+          href={selected.decision.arcProof.explorerUrl}
+          rel="noreferrer"
+          target="_blank"
+        >
+          View decision on Arcscan <ExternalLink size={15} />
         </a>
       ) : null}
     </article>

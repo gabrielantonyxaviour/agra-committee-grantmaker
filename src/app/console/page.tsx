@@ -4,7 +4,7 @@ import { listApplications } from "@/lib/agra/store";
 
 export const dynamic = "force-dynamic";
 
-export default function ConsolePage() {
+export default async function ConsolePage() {
   noStore();
-  return <AgraConsole initialApplications={listApplications()} />;
+  return <AgraConsole initialApplications={await listApplications()} />;
 }

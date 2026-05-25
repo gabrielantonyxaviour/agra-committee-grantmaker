@@ -1,23 +1,18 @@
 import { config } from "dotenv";
 import {
   applicationIdBytes32,
-  broadcastDecision,
-  encodeDecisionCall,
+  recordDecisionOnChain,
 } from "../src/lib/agra/arc";
 import {
-  createApplication,
   canonicalApplication,
+  createApplication,
 } from "../src/lib/agra/fixtures";
 import { shortHash } from "../src/lib/agra/format";
 
 config({ path: ".env.local", quiet: true });
 config({ quiet: true });
 
-const application = createApplication(
-  canonicalApplication,
-  canonicalApplication.submittedAt,
-);
-const encodedCall = encodeDecisionCall(application);
+const application = createApplication(canonicalApplication);
 
 console.log("AGRA canonical replay");
 console.log(
@@ -34,9 +29,6 @@ console.log(
       traceHash: application.decision.traceHash,
       evidenceHash: application.decision.evidenceHash,
       traceShort: shortHash(application.decision.traceHash),
-      encodedCall,
-      proofStatus: application.decision.arcProof.status,
-      proofNote: application.decision.arcProof.note,
     },
     null,
     2,
@@ -44,17 +36,17 @@ console.log(
 );
 
 if (process.env.AGRA_BROADCAST === "1") {
-  const result = await broadcastDecision(application);
-  console.log("Broadcast result");
+  const proof = await recordDecisionOnChain(application);
+  console.log("On-chain record result");
   console.log(
     JSON.stringify(
-      result,
+      proof,
       (_, value) => (typeof value === "bigint" ? value.toString() : value),
       2,
     ),
   );
 } else {
   console.log(
-    "Broadcast skipped. Run npm run replay:broadcast after Arc funding and registry deployment.",
+    "Record skipped. Run npm run replay:broadcast to record this decision on Arc Testnet.",
   );
 }
