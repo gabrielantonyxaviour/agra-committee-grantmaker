@@ -84,14 +84,19 @@ read-loading, simulation loading/success/revert, write pending, confirmed
 
 ## Current integration status
 
-- **Live:** chain reads (decimals, balance), transfer simulation, wallet
-  connect/switch on Arc Testnet.
-- **Blocked from live write:** the Circle faucet has not funded the test wallet
-  (`nativeUsdcGasBalance: 0`), so a real `transfer` would revert. The UI shows
-  the simulation result and disables the live write honestly. No fake hashes.
+- **Live + proven write:** after the treasury wallet
+  `0x58374c…2b13` was funded with Arc Testnet USDC (20 USDC), the full
+  read → simulate → write pipeline settled a real transfer:
+  tx `0x2e742be6391cd6b5a85c55e59a255e8db23720f1a8f7dfb111996200c84e2c7f`,
+  status `success`, block `43975583`,
+  [Arcscan](https://testnet.arcscan.app/tx/0x2e742be6391cd6b5a85c55e59a255e8db23720f1a8f7dfb111996200c84e2c7f).
+  This is a mechanism-verification transfer (1 USDC) proving the on-chain
+  settlement path; remaining balance ~18.99 USDC is left for the interactive
+  browser demo. Pre-funding, the same simulate reverted (insufficient balance)
+  and the UI disabled the write — both states are real, no fake hashes.
 - **Registry path (separate):** `DecisionRegistry.recordDecision` server-side
   broadcast (`scripts/replay-demo.ts`) remains blocked on
-  `DECISION_REGISTRY_ADDRESS` + funding. Labeled fixture until deployed.
+  `DECISION_REGISTRY_ADDRESS` (contract not yet deployed). Labeled fixture.
 
 ## To go fully live
 

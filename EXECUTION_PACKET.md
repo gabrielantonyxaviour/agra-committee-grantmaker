@@ -42,7 +42,7 @@ AGRA is an autonomous public-goods grantmaker: it reviews micro-grant applicatio
 - Repo: `https://github.com/gabrielantonyxaviour/agra-committee-grantmaker`
 - Live app: `https://agra-committee-grantmaker.vercel.app`
 - Video: pending.
-- Arc tx: pending.
+- Arc tx (live settlement path verified): `0x2e742be6391cd6b5a85c55e59a255e8db23720f1a8f7dfb111996200c84e2c7f` — https://testnet.arcscan.app/tx/0x2e742be6391cd6b5a85c55e59a255e8db23720f1a8f7dfb111996200c84e2c7f (mechanism-verification transfer, not a claimed applicant payout).
 
 ## Final Checklist
 

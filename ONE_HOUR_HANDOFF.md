@@ -68,8 +68,11 @@ PORT=3003 npm start # landing 200, console 200
 
 ## Blockers
 
-1. **Circle/Arc faucet funding** for `0x58374c…2b13` (or any connected wallet)
-   — required for a real USDC settlement tx and `replay:broadcast`.
+1. ~~Circle/Arc faucet funding~~ **RESOLVED** — wallet funded (20 USDC) and a
+   real settlement tx confirmed live:
+   `0x2e742be6391cd6b5a85c55e59a255e8db23720f1a8f7dfb111996200c84e2c7f`
+   (status success, block 43975583). ~18.99 USDC remains for the interactive
+   demo.
 2. **`DecisionRegistry` not deployed** — `DECISION_REGISTRY_ADDRESS` unset;
    on-chain decision record stays fixture-labeled.
 3. **Build config:** wagmi's optional Tempo connector does `import('accounts')`

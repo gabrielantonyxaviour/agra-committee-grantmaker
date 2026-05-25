@@ -44,10 +44,21 @@ The treasury action is a real USDC transfer to the grantee on Arc Testnet
 3. **Write (gated):** the live transaction only enables once the simulation
    passes. **No tx hash is shown unless the chain returns one.**
 
-Honest status: chain reads and the transfer simulation are live now. The live
-**write** is blocked only by Circle faucet funding for the test wallet; the UI
-discloses this and disables the live settlement button. No fabricated
-transaction hashes anywhere. Fixture and live states are labeled throughout.
+Honest status: the full read → simulate → **write** path is proven live on Arc
+Testnet. After the treasury wallet was funded with testnet USDC, the exact UI
+pipeline (`simulateContract.request → writeContract → waitForTransactionReceipt`)
+settled a real transfer:
+
+- tx `0x2e742be6391cd6b5a85c55e59a255e8db23720f1a8f7dfb111996200c84e2c7f`
+  ([Arcscan](https://testnet.arcscan.app/tx/0x2e742be6391cd6b5a85c55e59a255e8db23720f1a8f7dfb111996200c84e2c7f)),
+  status `success`, block `43975583`.
+
+This is a **mechanism-verification transfer** (a small payout proving the
+on-chain settlement path), not a claim that a specific applicant was paid. Real
+grantee payouts settle through the identical code path. When a wallet is
+unfunded, the UI shows the simulation and disables the live write — no
+fabricated transaction hashes anywhere. Fixture and live states are labeled
+throughout.
 
 ## Demo Loop
 
