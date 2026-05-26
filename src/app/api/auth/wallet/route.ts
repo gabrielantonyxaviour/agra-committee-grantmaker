@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import { getAddress, isAddress, verifyMessage } from "viem";
 import { z } from "zod";
 
-export const runtime = "edge";
 import {
   buildWalletAuthMessage,
   REQUIRED_WALLET_CHAIN_ID,
